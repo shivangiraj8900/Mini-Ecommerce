@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cart</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1 style="text-align:center; margin:20px;">🛒 My Cart</h1>
+
+<div id="cartContainer"></div>
+
+<script>
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cartContainer = document.getElementById("cartContainer");
+
+if (cart.length === 0) {
+
+    cartContainer.innerHTML = "<h2 style='text-align:center;'>Cart is Empty</h2>";
+
+} else {
+
+    let total = 0;
+
+    cart.forEach((item, index) => {
+
+        total += item.price * 85;
+
+        cartContainer.innerHTML += `
+        <div class="card" style="padding:20px; margin:20px; border:1px solid #ddd; text-align:center;">
+            <h3>${item.name}</h3>
+            <p>₹${Math.floor(item.price * 85)}</p>
+
+            <button onclick="removeItem(${index})">
+                Remove
+            </button>
+        </div>
+        `;
+    });
+
+    cartContainer.innerHTML += `
+    <h2 style="text-align:center;">
+        Total = ₹${Math.floor(total)}
+    </h2>
+    `;
+
+}
+
+function removeItem(index){
+
+    cart.splice(index,1);
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    location.reload();
+
+}
+
+</script>
+
+</body>
+</html>
